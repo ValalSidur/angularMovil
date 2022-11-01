@@ -1,0 +1,18 @@
+<StackLayout>
+    <Label text="Agregar Perfiles"></Label>
+    <WrapLayout>
+        <StackLayout 
+            orientation="horizontal" 
+            *ngFor="let p of perfiles; let i = index" 
+            (tap)="onRemoveNombre(i)"
+        >
+            <Label [text]="p"></Label>
+            <Label text="x"></Label>
+        </StackLayout>
+    </WrapLayout>
+    <Label text="Agregar Nombre:"></Label>
+    <TextField returnKeyType="done" (returnPress)="onAddPerfil()" [(ngModel)]="nombre"></TextField>
+    <Label [text]="nombre"></Label>
+    <Label class="page__content-placeholder" text="Perfiles"></Label>
+    <Button text="Mis grupos" [nsRouterLink]="['/grupos']" pageTransition="slide" clearHistory="true"></Button>
+</StackLayout>
