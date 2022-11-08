@@ -7,7 +7,26 @@
   </GridLayout>
 </ActionBar>
 
-<StackLayout class="page page-content">
+  <!--<Label class="page-placeholder" *ngFor="let s of noticias.buscar()" [text]="s"></Label>-->
+  <!--<ListView class="list-group" [items]="this.noticias.buscar()" (itemTap)="onItemTap($event)" style="height: 1250px;">-->
+
+<StackLayout class="page page-content" #layout>
   <Label class="page-icon fa" text="&#xf002;"></Label>
-  <Label class="page-placeholder" *ngFor="let s of noticias.buscar()" [text]="s"></Label>
+  <SearchForm (buscar)="buscarAhora($event)" [inicial]="'prueba'"></SearchForm>
+  <ListView class="list-group" [items]="resultados" (itemTap)="onItemTap($event)" style="height: 1250px;">
+    <ng-template let-x="item">
+      <FlexboxLayout flexDirection="row" class="list-group-item">
+        <image src="" class="thumb img-circle"></image>
+        <Label [text]="x" class="list-group-item-heading" verticalAlignment="center" style="width: 60%"></Label>
+      </FlexboxLayout>
+    </ng-template>
+  </ListView>
+
+  
+  <GridLayout columns="auto, *, auto" rows="auto, 25" verticalAlignment="top" backgroundColor="lightgray">
+    <Image src="" rowSpan="2" width="72" height="72" margin="3" verticalAlignment="top"></Image>
+    <Label text="Excelente hotel!!" textWrap="true" col="1" colSpan="2" minHeight="50" fontSize="20" margin="3"></Label>
+    <Label text="Puntaje:4.3" col="2" row="1" color="#10C2B0" fontSize="14" verticalAlignment="bottom" margin="3"></Label>
+  </GridLayout>
+  
 </StackLayout>

@@ -8,6 +8,6 @@ const routes: Routes = [{ path: '', component: SearchComponent }]
 
 @NgModule({
   imports: [NativeScriptRouterModule.forChild(routes)],
-  exports: [NativeScriptRouterModule],
+  exports: [NativeScriptRouterModule]
 })
 export class SearchRoutingModule {}
