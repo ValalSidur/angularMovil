@@ -12,7 +12,7 @@
 
 <StackLayout class="page page-content" #layout>
   <Label class="page-icon fa" text="&#xf002;"></Label>
-  <SearchForm (buscar)="buscarAhora($event)" [inicial]="'prueba'"></SearchForm>
+  <SearchForm (buscar)="buscarAhora($event)" [inicial]="''"></SearchForm>
   <ListView class="list-group" [items]="resultados" (itemTap)="onItemTap($event)" style="height: 1250px;">
     <ng-template let-x="item">
       <FlexboxLayout flexDirection="row" class="list-group-item">

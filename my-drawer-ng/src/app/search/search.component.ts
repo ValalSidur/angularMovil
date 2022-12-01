@@ -4,6 +4,10 @@ import { Application, Color, View } from '@nativescript/core';
 import { NoticiasService } from '../domain/noticias.service';
 import * as Toast from 'nativescript-toasts';
 
+import { Noticia, NuevaNoticiaAction } from "../domain/noticias-state.model";
+import { AppState } from '../app.module';
+import { Store } from '@ngrx/store';
+
 @Component({
   selector: 'Search',
   moduleId: module.id,
@@ -14,17 +18,25 @@ export class SearchComponent implements OnInit {
   @ViewChild("layout") layout: ElementRef;
   resultados: Array<string>;
 
-  constructor(public noticias: NoticiasService) {
+  constructor(public noticias: NoticiasService, public store: Store<AppState>) {
     // Use the component constructor to inject providers.
   }
 
   doLater(fn){ setTimeout(fn, 1000);}
 
   ngOnInit(): void {
-    this.noticias.agregar("prueba 1");
-    this.noticias.agregar("prueba 2");
-    this.noticias.agregar("prueba 3");
-    this.noticias.agregar("prueba 4");
+    this.store.select((state) => state.noticias.sugerida).subscribe((data) => {
+      const f = data;
+      if(f != null){
+        Toast.show({text: "Sugerimos leer: "+f.titulo, duration: Toast.DURATION.SHORT});
+      }
+    });
+    //this.noticias.agregar("prueba 1");
+    //this.noticias.agregar("prueba 2");
+    //this.noticias.agregar("prueba 3");
+    //this.noticias.agregar("prueba 4");
+    this.noticias.agregar("Cocina México DF");
+    this.noticias.agregar("Finanzas Nueva York");
     /*
     this.doLater(() => 
       Dialogs.action("Mensaje", "Cancelar!", ["Opcion1", "Opcion2"])
@@ -49,13 +61,23 @@ export class SearchComponent implements OnInit {
     sideDrawer.showDrawer()
   }
 
-  onItemTap(x): void{
-    console.dir(x);
+  onItemTap(args): void{
+    this.store.dispatch(new NuevaNoticiaAction(new Noticia(args.view.bindingContext)));
+    //console.dir(x);
   }
 
   buscarAhora(s: string){
-      this.resultados = this.noticias.buscar().filter((x) => x.indexOf(s) >= 0);
+      //this.resultados = this.noticias.buscar(s);
 
+      console.dir("buscarAhora: "+s);
+      this.noticias.buscar(s).then((r:any) => {
+        console.log("resultados buscarAhora: " + JSON.stringify(r));
+        this.resultados = r;
+      }, (e) => {
+        console.log("error buscarAhora"+ e);
+        Toast.show({text: "Error en la búsqueda", duration: Toast.DURATION.SHORT});
+      });
+      
       const layout = <View>this.layout.nativeElement;
       layout.animate({
         backgroundColor: new Color("blue"),
